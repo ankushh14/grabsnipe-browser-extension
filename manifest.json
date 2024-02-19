@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "GrabSnipe",
+  "description":"Take snips easily using this chrome extension",
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["scripting", "activeTab","tabs","debugger","alarms","downloads"],
+  "host_permissions": ["http://*/*", "https://*/*", "*://*/*"],
+  "content_scripts":[
+    {
+      "js": ["src/content_script.ts"],
+      "matches": ["<all_urls>","*://*/*"]
+    }
+  ],
+  "background":{
+    "service_worker":"src/background.ts",
+    "type":"module"
+  }
+}
