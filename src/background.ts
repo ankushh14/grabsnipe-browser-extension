@@ -26,8 +26,7 @@ chrome.runtime.onMessage.addListener(
       );
     }
     if(message.action === "downloadCroppedImage"){
-      console.log(message.data)
-      // chrome.downloads.download({url:message.data!,filename:"screenGrab.png"})
+      chrome.downloads.download({url:message.data!,filename:"screenGrab.png"})
     }
     return true
   }

@@ -58,6 +58,7 @@ const confirmFunction = async () => {
         data : croppedDataUrl
       }
       chrome.runtime.sendMessage(croppedImageAction)
+      cancelFunction()
     };
   }
 };
