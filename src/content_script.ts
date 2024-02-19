@@ -48,10 +48,10 @@ const confirmFunction = async () => {
 
       if(!context) return
 
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
-      const croppedImage = context.getImageData(box!.offsetLeft,box!.offsetTop,box!.offsetWidth,box!.offsetHeight)
+      context.drawImage(image,box!.offsetLeft,box!.offsetTop,box!.offsetWidth,box!.offsetHeight,0,0,image.width,image.height);
+      document.body.appendChild(canvas)
 
-      const croppedDataUrl = getCroppedImageUrl(croppedImage)
+      const croppedDataUrl = canvas.toDataURL("image/png")
 
       const croppedImageAction:MessageBody = {
         action : "downloadCroppedImage",
@@ -62,15 +62,6 @@ const confirmFunction = async () => {
     };
   }
 };
-
-const getCroppedImageUrl = (imageData:ImageData)=>{
-  const newCanvas = document.createElement("canvas")
-  newCanvas.width = imageData.width
-  newCanvas.height = imageData.height
-  const newContext = newCanvas.getContext("2d")
-  newContext?.putImageData(imageData,0,0)
-  return newCanvas.toDataURL("image/png")
-}
 
 const cancelFunction = () => {
   if (document.getElementById("drawBox")) {
