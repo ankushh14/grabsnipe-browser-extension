@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../styles/ExtensionBody.module.css";
 import { MessageBody } from "../background";
 import { ResponseBody } from "../background";
@@ -10,8 +10,13 @@ type CaptureScreenShotResult = {
 }
 
 export default function ExtensionBody() {
+
+  const [alert,setAlert] = useState("")
+
+
   const grabButtonClicked = async (e: React.MouseEvent) => {
     e.preventDefault();
+    setAlert("")
     const message : MessageBody = { action: "grabClicked" }
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
     const response = await chrome.tabs.sendMessage(tabs[0].id!,message)
@@ -20,53 +25,30 @@ export default function ExtensionBody() {
 
   const cancelButtonClicked = async (e: React.MouseEvent) => {
     e.preventDefault();
+    setAlert("")
     const message : MessageBody = { action: "cancelClicked" }
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
     const response = await chrome.tabs.sendMessage(tabs[0].id!,message)
     console.log(response)
   };
 
-  const EntireScreenCapture = async () => {
+  const EntireScreenCapture = () => {
+    setAlert("")
     const message:MessageBody = {
       action : "screenCapture"
     }
-    const response:ResponseBody = await chrome.runtime.sendMessage(message)
-    if(response.data){
-      chrome.downloads.download({url:response.data,filename:"screenCapture.png"})
-    }
+    chrome.runtime.sendMessage(message)
   };
 
   const FullPageCapture = async () => {
-    const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-
-    chrome.debugger.attach({ tabId: tabs[0].id! }, "1.2", () => {
-      if (tabs[0].url?.startsWith("http")) {
-        chrome.debugger.sendCommand(
-          { tabId: tabs[0].id! },
-          "Page.enable",
-          ()=>{
-            setTimeout(()=>{
-              chrome.debugger.sendCommand(
-                { tabId: tabs[0].id! },
-                "Page.captureScreenshot",
-                {
-                  format: "png",
-                  captureBeyondViewport: true,
-                  fromSurface : true,
-                  quality : 100
-                },
-                (data : any)=>{
-                  const objectURL = "data:image/png;base64," + data!.data
-                  chrome.downloads.download({url:objectURL,filename:"fullScreenCapture.png"})
-                }
-              );
-            },1000)
-          }
-        )
-      } else {
-        alert("This can only be used in pages starting with http/https");
-      }
-    });
+    const response:ResponseBody = await chrome.runtime.sendMessage<MessageBody>({
+      action : "fullPageCapture"
+    })
+    if(response){
+      setAlert(response.message)
+    }else{
+      setAlert("")
+    }
   };
 
   return (
@@ -84,6 +66,11 @@ export default function ExtensionBody() {
         <button onClick={(e) => EntireScreenCapture()}>Entire screen</button>
         <button onClick={(e) => FullPageCapture()}>Full page</button>
       </main>
+      <div>
+        <h3>
+          {alert}
+        </h3>
+      </div>
       <footer className={styles.footer}>All rights reserved @c</footer>
     </div>
   );
