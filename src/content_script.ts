@@ -47,7 +47,7 @@ const confirmFunction = async () => {
       const context = canvas.getContext("2d");
       
       if(!context) return
-      
+
 
       const areaOfImage = image.width * image.height
       const areaOfDom = document.documentElement.clientWidth * document.documentElement.clientHeight
@@ -58,9 +58,11 @@ const confirmFunction = async () => {
       const newBoxWidth = Math.sqrt(timesIncrease) * box!.offsetWidth
       const newBoxHeight = Math.sqrt(timesIncrease) * box!.offsetHeight
 
+      const newBoxLeft = Math.sqrt(timesIncrease) * box!.offsetLeft
+      const newBoxTop = Math.sqrt(timesIncrease) * box!.offsetTop
 
-      context.drawImage(image,box!.offsetLeft,box!.offsetTop,newBoxWidth,newBoxHeight,0,0,image.width,image.height);
-
+      
+      context.drawImage(image,newBoxLeft+5,newBoxTop+5,newBoxWidth-20,newBoxHeight-15,0,0,image.width,image.height);
       const croppedDataUrl = canvas.toDataURL("image/png")
 
       const croppedImageAction:MessageBody = {
