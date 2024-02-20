@@ -46,14 +46,20 @@ const confirmFunction = async () => {
       canvas.height = image.height;
       const context = canvas.getContext("2d");
       
-      const toAddX:number = image.width - window.innerWidth
-      const toAddY:number = image.height - window.innerHeight
-
+      if(!context) return
       
 
-      if(!context) return
+      const areaOfImage = image.width * image.height
+      const areaOfDom = document.documentElement.clientWidth * document.documentElement.clientHeight
 
-      context.drawImage(image,box!.offsetLeft+toAddX,box!.offsetTop+toAddY,box!.offsetWidth,box!.offsetHeight,0,0,image.width,image.height);
+      const timesIncrease = areaOfImage/areaOfDom
+      console.log(timesIncrease)
+
+      const newBoxWidth = Math.sqrt(timesIncrease) * box!.offsetWidth
+      const newBoxHeight = Math.sqrt(timesIncrease) * box!.offsetHeight
+
+
+      context.drawImage(image,box!.offsetLeft,box!.offsetTop,newBoxWidth,newBoxHeight,0,0,image.width,image.height);
 
       const croppedDataUrl = canvas.toDataURL("image/png")
 
