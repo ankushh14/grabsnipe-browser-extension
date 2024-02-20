@@ -20,7 +20,11 @@ chrome.runtime.onMessage.addListener(
           format: "png",
         },
         (dataUrl) => {
-          chrome.downloads.download({url:dataUrl,filename:"screenCapture.png"})
+          const response: ResponseBody = {
+            message: "screenCapture succeed",
+            data: dataUrl
+          };
+          sendResponse(response);
         }
       );
     }

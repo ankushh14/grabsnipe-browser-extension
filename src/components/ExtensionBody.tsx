@@ -32,12 +32,15 @@ export default function ExtensionBody() {
     console.log(response)
   };
 
-  const EntireScreenCapture = () => {
+  const EntireScreenCapture = async() => {
     setAlert("")
     const message:MessageBody = {
       action : "screenCapture"
     }
-    chrome.runtime.sendMessage(message)
+    const response:ResponseBody = await chrome.runtime.sendMessage(message)
+    if(response.data){
+      chrome.downloads.download({url:response.data,filename:"screenCapture.png"})
+    }
   };
 
   const FullPageCapture = async () => {
