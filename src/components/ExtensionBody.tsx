@@ -43,12 +43,26 @@ export default function ExtensionBody() {
       if (tabs[0].url?.startsWith("http")) {
         chrome.debugger.sendCommand(
           { tabId: tabs[0].id! },
-          "Page.captureScreenshot",
-          {
-            format: "jpeg",
-            captureBeyondViewport: true,
-          },
-        );
+          "Page.enable",
+          ()=>{
+            setTimeout(()=>{
+              chrome.debugger.sendCommand(
+                { tabId: tabs[0].id! },
+                "Page.captureScreenshot",
+                {
+                  format: "png",
+                  captureBeyondViewport: true,
+                  fromSurface : true,
+                  quality : 100
+                },
+                (data : any)=>{
+                  const objectURL = "data:image/png;base64," + data!.data
+                  chrome.downloads.download({url:objectURL,filename:"fullScreenCapture.png"})
+                }
+              );
+            },1000)
+          }
+        )
       } else {
         alert("This can only be used in pages starting with http/https");
       }
