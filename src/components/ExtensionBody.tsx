@@ -68,8 +68,7 @@ export default function ExtensionBody() {
       </header>
       <main className={styles.main}>
         <p className={styles.extDescription}>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi
-          blanditiis rem omnis eveniet nihil! Id nobis esse doloremque sunt rem?
+        GrabSnipe, provides users with three seamless screenshot options. Users can precisely capture specific areas with screensnip, take quick screenshots, or opt for complete webpage captures, enhancing flexibility and user experience.
         </p>
         <div className={styles.extButtonContainer}>
           {!snip ? (
@@ -91,13 +90,13 @@ export default function ExtensionBody() {
             className={styles.extButton}
             onClick={(e) => EntireScreenCapture()}
           >
-            Entire screen
+            Screen Shot
           </button>
           <button
             className={styles.extButton}
             onClick={(e) => FullPageCapture()}
           >
-            Full page
+            Full Page Screenshot
           </button>
         </div>
       </main>
