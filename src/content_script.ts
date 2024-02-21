@@ -32,14 +32,17 @@ const generalDrawBoxStyles = {
 
 const confirmFunction = async () => {
   if(!box){
-    return
+    alert("GrabSnipe: Some error occured, please try again")
+    return cancelFunction()
   }else{
+    removeControlButtons()
     const message:MessageBody = {
       action : "screenCapture"
     }
     const response:ResponseBody = await chrome.runtime.sendMessage(message)
     if(!response){
-      return
+      alert("GrabSnipe: Some error occured, please try again")
+      return cancelFunction()
     }
     const image = new Image();
     image.src = response.data!;
@@ -50,7 +53,10 @@ const confirmFunction = async () => {
       canvas.height = image.height;
       const context = canvas.getContext("2d");
       
-      if(!context) return
+      if(!context){
+        alert("GrabSnipe: Some error occured, please try again")
+        return cancelFunction()
+      }
 
 
       const areaOfImage = image.width * image.height
@@ -92,7 +98,7 @@ const createControlButtons = () => {
 
   confirmButton = document.createElement("button");
   confirmButton.style.top = `${startY + 10}px`;
-  confirmButton.style.left = `${endX}px`;
+  confirmButton.style.left = `${endX - 80}px`;
   confirmButton.style.position = generalButtonStyles.position;
   confirmButton.style.zIndex = generalButtonStyles.zIndex;
   confirmButton.style.width = generalButtonStyles.width;
@@ -111,7 +117,7 @@ const createControlButtons = () => {
 
   cancelButton = document.createElement("button");
   cancelButton.style.top = `${startY + 60}px`;
-  cancelButton.style.left = `${endX}px`;
+  cancelButton.style.left = `${endX - 80}px`;
   cancelButton.style.position = generalButtonStyles.position;
   cancelButton.style.zIndex = generalButtonStyles.zIndex;
   cancelButton.style.width = generalButtonStyles.width;
