@@ -12,15 +12,19 @@ var cancelButton: HTMLButtonElement | null;
 const generalButtonStyles = {
   position: "fixed",
   zIndex: "9999",
-  width: "80px",
-  height: "40px",
-  padding: "5px",
+  width: "75px",
+  height: "auto",
+  padding: "10px",
   margin: "0px 0px 8px 5px",
   cursor: "pointer",
+  borderRadius : "6px",
+  color : "white",
+  backgroundColor : "blueviolet",
+  border : "none"
 };
 
 const generalDrawBoxStyles = {
-  borderRadius: "8px",
+  borderRadius: "2px",
   border: "2px dashed purple",
   position: "fixed",
   zIndex: "9999",
@@ -96,6 +100,10 @@ const createControlButtons = () => {
   confirmButton.style.padding = generalButtonStyles.padding;
   confirmButton.style.margin = generalButtonStyles.margin;
   confirmButton.style.cursor = generalButtonStyles.cursor;
+  confirmButton.style.borderRadius = generalButtonStyles.borderRadius
+  confirmButton.style.color = generalButtonStyles.color
+  confirmButton.style.backgroundColor = generalButtonStyles.backgroundColor
+  confirmButton.style.border = generalButtonStyles.border
   confirmButton.id = "confirmBtn";
   confirmButton.innerText = "Confirm";
   confirmButton.onclick = confirmFunction
@@ -111,6 +119,10 @@ const createControlButtons = () => {
   cancelButton.style.padding = generalButtonStyles.padding;
   cancelButton.style.margin = generalButtonStyles.margin;
   cancelButton.style.cursor = generalButtonStyles.cursor;
+  cancelButton.style.borderRadius = generalButtonStyles.borderRadius
+  cancelButton.style.color = generalButtonStyles.color
+  cancelButton.style.backgroundColor = generalButtonStyles.backgroundColor
+  cancelButton.style.border = generalButtonStyles.border
   cancelButton.id = "cancelBtn";
   cancelButton.innerText = "Cancel";
   cancelButton.onclick = cancelFunction;
