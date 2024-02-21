@@ -21,7 +21,7 @@ chrome.runtime.onMessage.addListener(
         },
         (dataUrl) => {
           const response: ResponseBody = {
-            message: "screenCapture succeed",
+            message: "Capture successful!",
             data: dataUrl
           };
           sendResponse(response);
@@ -42,7 +42,7 @@ chrome.runtime.onMessage.addListener(
 
         chrome.debugger.attach({ tabId: tabs[0].id! }, "1.2", () => {
           if(chrome.runtime.lastError){
-            let response : ResponseBody = {message : chrome.runtime.lastError.message!}
+            let response : ResponseBody = {message : "Only Works in webPages starting with http/https"}
             sendResponse(response)
           }
           if (tabs[0].url?.startsWith("http")) {
