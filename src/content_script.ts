@@ -17,10 +17,10 @@ const generalButtonStyles = {
   padding: "10px",
   margin: "0px 0px 8px 5px",
   cursor: "pointer",
-  borderRadius : "6px",
-  color : "white",
-  backgroundColor : "blueviolet",
-  border : "none"
+  borderRadius: "6px",
+  color: "white",
+  backgroundColor: "blueviolet",
+  border: "none",
 };
 
 const generalDrawBoxStyles = {
@@ -31,56 +31,65 @@ const generalDrawBoxStyles = {
 };
 
 const confirmFunction = async () => {
-  if(!box){
-    alert("GrabSnipe: Some error occured, please try again")
-    return cancelFunction()
-  }else{
-    removeControlButtons()
-    const message:MessageBody = {
-      action : "screenCapture"
-    }
-    const response:ResponseBody = await chrome.runtime.sendMessage(message)
-    if(!response){
-      alert("GrabSnipe: Some error occured, please try again")
-      return cancelFunction()
+  if (!box) {
+    alert("GrabSnipe: Some error occured, please try again");
+    return cancelFunction();
+  } else {
+    removeControlButtons();
+    const message: MessageBody = {
+      action: "screenCapture",
+    };
+    const response: ResponseBody = await chrome.runtime.sendMessage(message);
+    if (!response) {
+      alert("GrabSnipe: Some error occured, please try again");
+      return cancelFunction();
     }
     const image = new Image();
     image.src = response.data!;
     image.onload = () => {
-
       const canvas = document.createElement("canvas");
       canvas.width = image.width;
       canvas.height = image.height;
       const context = canvas.getContext("2d");
-      
-      if(!context){
-        alert("GrabSnipe: Some error occured, please try again")
-        return cancelFunction()
+
+      if (!context) {
+        alert("GrabSnipe: Some error occured, please try again");
+        return cancelFunction();
       }
 
+      const areaOfImage = image.width * image.height;
+      const areaOfDom =
+        document.documentElement.clientWidth *
+        document.documentElement.clientHeight;
 
-      const areaOfImage = image.width * image.height
-      const areaOfDom = document.documentElement.clientWidth * document.documentElement.clientHeight
+      const timesIncrease = areaOfImage / areaOfDom;
+      console.log(timesIncrease);
 
-      const timesIncrease = areaOfImage/areaOfDom
-      console.log(timesIncrease)
+      const newBoxWidth = Math.sqrt(timesIncrease) * box!.offsetWidth;
+      const newBoxHeight = Math.sqrt(timesIncrease) * box!.offsetHeight;
 
-      const newBoxWidth = Math.sqrt(timesIncrease) * box!.offsetWidth
-      const newBoxHeight = Math.sqrt(timesIncrease) * box!.offsetHeight
+      const newBoxLeft = Math.sqrt(timesIncrease) * box!.offsetLeft;
+      const newBoxTop = Math.sqrt(timesIncrease) * box!.offsetTop;
 
-      const newBoxLeft = Math.sqrt(timesIncrease) * box!.offsetLeft
-      const newBoxTop = Math.sqrt(timesIncrease) * box!.offsetTop
+      context.drawImage(
+        image,
+        newBoxLeft + 5,
+        newBoxTop + 5,
+        newBoxWidth - 20,
+        newBoxHeight - 15,
+        0,
+        0,
+        image.width,
+        image.height
+      );
+      const croppedDataUrl = canvas.toDataURL("image/png");
 
-      
-      context.drawImage(image,newBoxLeft+5,newBoxTop+5,newBoxWidth-20,newBoxHeight-15,0,0,image.width,image.height);
-      const croppedDataUrl = canvas.toDataURL("image/png")
-
-      const croppedImageAction:MessageBody = {
-        action : "downloadCroppedImage",
-        data : croppedDataUrl
-      }
-      chrome.runtime.sendMessage(croppedImageAction)
-      cancelFunction()
+      const croppedImageAction: MessageBody = {
+        action: "downloadCroppedImage",
+        data: croppedDataUrl,
+      };
+      chrome.runtime.sendMessage(croppedImageAction);
+      cancelFunction();
     };
   }
 };
@@ -106,13 +115,13 @@ const createControlButtons = () => {
   confirmButton.style.padding = generalButtonStyles.padding;
   confirmButton.style.margin = generalButtonStyles.margin;
   confirmButton.style.cursor = generalButtonStyles.cursor;
-  confirmButton.style.borderRadius = generalButtonStyles.borderRadius
-  confirmButton.style.color = generalButtonStyles.color
-  confirmButton.style.backgroundColor = generalButtonStyles.backgroundColor
-  confirmButton.style.border = generalButtonStyles.border
+  confirmButton.style.borderRadius = generalButtonStyles.borderRadius;
+  confirmButton.style.color = generalButtonStyles.color;
+  confirmButton.style.backgroundColor = generalButtonStyles.backgroundColor;
+  confirmButton.style.border = generalButtonStyles.border;
   confirmButton.id = "confirmBtn";
   confirmButton.innerText = "Confirm";
-  confirmButton.onclick = confirmFunction
+  confirmButton.onclick = confirmFunction;
   document.body.appendChild(confirmButton);
 
   cancelButton = document.createElement("button");
@@ -125,10 +134,10 @@ const createControlButtons = () => {
   cancelButton.style.padding = generalButtonStyles.padding;
   cancelButton.style.margin = generalButtonStyles.margin;
   cancelButton.style.cursor = generalButtonStyles.cursor;
-  cancelButton.style.borderRadius = generalButtonStyles.borderRadius
-  cancelButton.style.color = generalButtonStyles.color
-  cancelButton.style.backgroundColor = generalButtonStyles.backgroundColor
-  cancelButton.style.border = generalButtonStyles.border
+  cancelButton.style.borderRadius = generalButtonStyles.borderRadius;
+  cancelButton.style.color = generalButtonStyles.color;
+  cancelButton.style.backgroundColor = generalButtonStyles.backgroundColor;
+  cancelButton.style.border = generalButtonStyles.border;
   cancelButton.id = "cancelBtn";
   cancelButton.innerText = "Cancel";
   cancelButton.onclick = cancelFunction;
@@ -198,11 +207,8 @@ const mouseUpListener = (e: MouseEvent) => {
 };
 
 const snipFunction = () => {
-  if (document.getElementById("drawBox")) {
-    document.body.removeChild(box!);
-    box = null;
-  }
-  removeControlButtons();
+  cancelFunction();
+
   document.body.style.cursor = "crosshair";
   document.addEventListener("mousedown", mouseDownListener);
   document.addEventListener("mousemove", mouseMoveListener);
