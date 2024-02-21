@@ -3,54 +3,61 @@ import styles from "../styles/ExtensionBody.module.css";
 import { MessageBody } from "../background";
 import { ResponseBody } from "../background";
 
-
-
 type CaptureScreenShotResult = {
-  data : string
-}
+  data: string;
+};
 
 export default function ExtensionBody() {
-
-  const [alert,setAlert] = useState("")
-
+  const [alert, setAlert] = useState("");
+  const [snip, setSnip] = useState(false);
 
   const grabButtonClicked = async (e: React.MouseEvent) => {
     e.preventDefault();
-    setAlert("")
-    const message : MessageBody = { action: "grabClicked" }
+    setAlert("");
+    setSnip(true)
+    const message: MessageBody = { action: "grabClicked" };
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    const response = await chrome.tabs.sendMessage(tabs[0].id!,message)
-    console.log(response)
+    if(!tabs[0].url?.startsWith("http")){
+      setAlert("Only Works in webPages starting with http/https")
+      return setSnip(false)
+    }
+    const response:ResponseBody = await chrome.tabs.sendMessage(tabs[0].id!, message);
+    setAlert(response.message)
   };
 
   const cancelButtonClicked = async (e: React.MouseEvent) => {
     e.preventDefault();
-    setAlert("")
-    const message : MessageBody = { action: "cancelClicked" }
+    const message: MessageBody = { action: "cancelClicked" };
     const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
-    const response = await chrome.tabs.sendMessage(tabs[0].id!,message)
-    console.log(response)
+    const response:ResponseBody = await chrome.tabs.sendMessage(tabs[0].id!, message);
+    setSnip(false)
+    setAlert(response.message)
   };
 
-  const EntireScreenCapture = async() => {
-    setAlert("")
-    const message:MessageBody = {
-      action : "screenCapture"
-    }
-    const response:ResponseBody = await chrome.runtime.sendMessage(message)
-    if(response.data){
-      chrome.downloads.download({url:response.data,filename:"screenCapture.png"})
+  const EntireScreenCapture = async () => {
+    setAlert("");
+    const message: MessageBody = {
+      action: "screenCapture",
+    };
+    const response: ResponseBody = await chrome.runtime.sendMessage(message);
+    if (response.data) {
+      setAlert(response.message)
+      chrome.downloads.download({
+        url: response.data,
+        filename: "screenCapture.png",
+      });
     }
   };
 
   const FullPageCapture = async () => {
-    const response:ResponseBody = await chrome.runtime.sendMessage<MessageBody>({
-      action : "fullPageCapture"
-    })
-    if(response){
-      setAlert(response.message)
-    }else{
-      setAlert("")
+    const response: ResponseBody =
+      await chrome.runtime.sendMessage<MessageBody>({
+        action: "fullPageCapture",
+      });
+    if (response) {
+      setAlert(response.message);
+    } else {
+      setAlert("");
     }
   };
 
@@ -60,21 +67,44 @@ export default function ExtensionBody() {
         <h1>GrabSnipe</h1>
       </header>
       <main className={styles.main}>
-        <p>
+        <p className={styles.extDescription}>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Eligendi
           blanditiis rem omnis eveniet nihil! Id nobis esse doloremque sunt rem?
         </p>
-        <button onClick={(e) => grabButtonClicked(e)}>Grab a snip</button>
-        <button onClick={(e) => cancelButtonClicked(e)}>Cancel</button>
-        <button onClick={(e) => EntireScreenCapture()}>Entire screen</button>
-        <button onClick={(e) => FullPageCapture()}>Full page</button>
+        <div className={styles.extButtonContainer}>
+          {!snip ? (
+            <button
+              className={styles.extButton}
+              onClick={(e) => grabButtonClicked(e)}
+            >
+              Grab a snip
+            </button>
+          ) : (
+            <button
+              className={`${styles.extButton} ${styles.cancelBtn}`}
+              onClick={(e) => cancelButtonClicked(e)}
+            >
+              Cancel
+            </button>
+          )}
+          <button
+            className={styles.extButton}
+            onClick={(e) => EntireScreenCapture()}
+          >
+            Entire screen
+          </button>
+          <button
+            className={styles.extButton}
+            onClick={(e) => FullPageCapture()}
+          >
+            Full page
+          </button>
+        </div>
       </main>
-      <div>
-        <h3>
-          {alert}
-        </h3>
+      <div className={styles.alertDiv}>
+        <p className={styles.alertMessage}>{alert}</p>
       </div>
-      <footer className={styles.footer}>All rights reserved @c</footer>
+      <footer className={styles.footer}>@GrabSnipe - Made By Ankush Shenoy</footer>
     </div>
   );
 }

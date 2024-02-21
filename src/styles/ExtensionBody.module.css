@@ -11,10 +11,10 @@
 .header{
     padding-bottom: 10px;
     width: 100%;
+    color: whitesmoke;
 }
 
 .header > h1{
-    font-weight: bold;
     width: 100%;
     text-align: center;
 }
@@ -24,17 +24,57 @@
     width: 100%;
 }
 
-.main > p{
+.extDescription{
     width: 100%;
     text-align: center;
+    padding: 0px 0px 20px 0px;
+    color: white;
 }
 
-.main > button{
-    height: 20px;
+.extButton{
+    width: 80%;
+    margin: 5px 0px 5px 0px;
+    padding: 8px;
+    color: white;
+    border: none;
+    background-color: blueviolet;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: small;
+    cursor: pointer;
+}
+
+.cancelBtn{
+    background-color: rgb(227, 55, 55);
+}
+
+.extButtonContainer{
     width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.alertDiv{
+    width: 100%;
+    height: 20px;
+    padding: 5px 0px 10px 0px;
+}
+
+.alertMessage{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: smaller;
+    color: rgb(224, 80, 80);
 }
 
 .footer{
-    padding-top: 10px;
-    justify-self: flex-end;
+    padding: 10px 0px 5px 0px;
+    width: 100%;
+    color: white;
+    text-align: center;
 }
