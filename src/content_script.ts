@@ -203,14 +203,14 @@ chrome.runtime.onMessage.addListener(
     if (message.action === "grabClicked") {
       snipFunction();
       let response: ResponseBody = {
-        message: "Action grab completed",
+        message: "Draw the outline of the snip you want to capture",
       };
       sendResponse(response);
     }
     if (message.action === "cancelClicked") {
       removeSnipFunction();
       let response: ResponseBody = {
-        message: "Action cancel completed",
+        message: "",
       };
       sendResponse(response);
     }
