@@ -107,9 +107,18 @@ const createControlButtons = () => {
 
   confirmButton = document.createElement("button");
   confirmButton.style.top = `${startY + 10}px`;
-  if(endX + 80 > window.innerWidth){
+  if(endX + 80 > window.innerWidth && startX - 90 >0){
     confirmButton.style.left = `${startX - 90}px`
-  }else{
+  }
+  else if(startX - 90 < 0 && endX + 90 > window.innerWidth && startY - 60 > 0){
+    confirmButton.style.top = `${startY-50}px`
+    confirmButton.style.left = `${endX - 185}px`
+  }
+  else if(startX - 90 < 0 && endX + 90 > window.innerWidth && startY - 60 < 0){
+    confirmButton.style.top = `${endY + 10}px`
+    confirmButton.style.left = `${endX - 185}px`
+  }
+  else{
     confirmButton.style.left = `${endX}px`;
   }
   confirmButton.style.position = generalButtonStyles.position;
@@ -130,9 +139,18 @@ const createControlButtons = () => {
 
   cancelButton = document.createElement("button");
   cancelButton.style.top = `${startY + 60}px`;
-  if(endX + 80 > window.innerWidth){
+  if(endX + 90 > window.innerWidth && startX - 90 >0){
     cancelButton.style.left = `${startX - 90}px`
-  }else{
+  }
+  else if(startX - 90 < 0 && endX + 90 > window.innerWidth && startY - 60 > 0){
+    cancelButton.style.top = `${startY-50}px`
+    cancelButton.style.left = `${endX - 100}px`
+  }
+  else if(startX - 90 < 0 && endX + 90 > window.innerWidth && startY - 60 < 0){
+    cancelButton.style.top = `${endY + 10}px`
+    cancelButton.style.left = `${endX - 100}px`
+  }
+  else{
     cancelButton.style.left = `${endX}px`;
   }
   cancelButton.style.position = generalButtonStyles.position;
