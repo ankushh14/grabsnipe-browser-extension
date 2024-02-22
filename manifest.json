@@ -1,10 +1,18 @@
 {
   "manifest_version": 3,
   "name": "GrabSnipe",
-  "description":"Take snips easily using this chrome extension",
+  "description":"GrabSnipe, users can capture specific areas with screensnip, take quick screenshots, or opt for complete webpage captures.",
   "version": "1.0.0",
   "action": {
     "default_popup": "index.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png",
+    "192":"icon192.png",
+    "512":"icon512.png"
   },
   "permissions": ["scripting", "activeTab","tabs","debugger","alarms","downloads"],
   "host_permissions": ["http://*/*", "https://*/*", "*://*/*"],
@@ -17,5 +25,8 @@
   "background":{
     "service_worker":"src/background.ts",
     "type":"module"
+  },
+  "author":{
+    "email":"ankushshenoy97@gmail.com"
   }
 }
