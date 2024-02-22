@@ -107,7 +107,11 @@ const createControlButtons = () => {
 
   confirmButton = document.createElement("button");
   confirmButton.style.top = `${startY + 10}px`;
-  confirmButton.style.left = `${endX - 80}px`;
+  if(endX + 80 > window.innerWidth){
+    confirmButton.style.left = `${startX - 90}px`
+  }else{
+    confirmButton.style.left = `${endX}px`;
+  }
   confirmButton.style.position = generalButtonStyles.position;
   confirmButton.style.zIndex = generalButtonStyles.zIndex;
   confirmButton.style.width = generalButtonStyles.width;
@@ -119,14 +123,18 @@ const createControlButtons = () => {
   confirmButton.style.color = generalButtonStyles.color;
   confirmButton.style.backgroundColor = generalButtonStyles.backgroundColor;
   confirmButton.style.border = generalButtonStyles.border;
-  confirmButton.id = "confirmBtn";
+  confirmButton.id = "df0c9e1c1ca905961faaafab1063673f";
   confirmButton.innerText = "Confirm";
   confirmButton.onclick = confirmFunction;
   document.body.appendChild(confirmButton);
 
   cancelButton = document.createElement("button");
   cancelButton.style.top = `${startY + 60}px`;
-  cancelButton.style.left = `${endX - 80}px`;
+  if(endX + 80 > window.innerWidth){
+    cancelButton.style.left = `${startX - 90}px`
+  }else{
+    cancelButton.style.left = `${endX}px`;
+  }
   cancelButton.style.position = generalButtonStyles.position;
   cancelButton.style.zIndex = generalButtonStyles.zIndex;
   cancelButton.style.width = generalButtonStyles.width;
@@ -138,18 +146,18 @@ const createControlButtons = () => {
   cancelButton.style.color = generalButtonStyles.color;
   cancelButton.style.backgroundColor = generalButtonStyles.backgroundColor;
   cancelButton.style.border = generalButtonStyles.border;
-  cancelButton.id = "cancelBtn";
+  cancelButton.id = "f02632c5d6919e84f2cafecb9cf1fc42";
   cancelButton.innerText = "Cancel";
   cancelButton.onclick = cancelFunction;
   document.body.appendChild(cancelButton);
 };
 
 const removeControlButtons = () => {
-  if (document.getElementById("confirmBtn")) {
+  if (document.getElementById("df0c9e1c1ca905961faaafab1063673f")) {
     document.body.removeChild(confirmButton!);
     confirmButton = null;
   }
-  if (document.getElementById("cancelBtn")) {
+  if (document.getElementById("f02632c5d6919e84f2cafecb9cf1fc42")) {
     document.body.removeChild(cancelButton!);
     cancelButton = null;
   }
