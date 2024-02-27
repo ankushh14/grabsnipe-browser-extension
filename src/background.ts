@@ -67,7 +67,7 @@ chrome.runtime.onMessage.addListener(
                       chrome.debugger.detach({tabId: tabs[0].id!})
                     }
                   );
-                },1000)
+                },2000)
               }
             )
           } else {
