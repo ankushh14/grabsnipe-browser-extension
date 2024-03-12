@@ -54,3 +54,7 @@ The extension won't work on the following origins:
 3. Navigate to `chrome://extensions`.
 4. Make sure that the `Developer mode` switch is enabled.
 5. Click on the `Load unpacked` button and select the dist folder in the cloned directory.
+
+## 📋 LICENSE
+
+Apache 2.0 © [2024](https://github.com/ankushh14/grabsnipe-browser-extension/blob/main/LICENSE)
