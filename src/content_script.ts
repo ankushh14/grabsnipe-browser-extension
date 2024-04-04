@@ -63,7 +63,6 @@ const confirmFunction = async () => {
         document.documentElement.clientHeight;
 
       const timesIncrease = areaOfImage / areaOfDom;
-      console.log(timesIncrease);
 
       const newBoxWidth = Math.sqrt(timesIncrease) * box!.offsetWidth;
       const newBoxHeight = Math.sqrt(timesIncrease) * box!.offsetHeight;
